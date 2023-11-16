@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='PySQLiteDBConnection',
-    version='1.0.0-a',
+    version='1.0.1',
     author='SurivZ',
     author_email='franklinserrano23@email.com',
     description='Paquete para manejar conexiones de bases de datos SQLite3 y operaciones CRUD.',
