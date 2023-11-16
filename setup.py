@@ -6,7 +6,7 @@ setup(
     author='SurivZ',
     author_email='franklinserrano23@email.com',
     description='Paquete para manejar conexiones de bases de datos SQLite3 y operaciones CRUD.',
-    long_description=open('README.md').read(),
+    long_description=open('readme.md').read(),
     long_description_content_type='text/markdown',
     url='https://github.com/SurivZ/Py-SQLite-DB-Connection',
     packages=find_packages(),
