@@ -1,5 +1,6 @@
 from sqlite3 import connect, Cursor, Connection
-from typing import List, Tuple, Any as any
+from typing import List, Tuple, Dict, Any as any
+from time import sleep
 
 
 class Connect:
@@ -10,10 +11,12 @@ class Connect:
         path (str): Ruta al archivo de la base de datos SQLite3.
         __connection (Connection): Conexión a la base de datos.
         __cursor (Cursor): Cursor para ejecutar consultas SQL.
+        __connection_status (bool): Variable que muestra el estado de la conexión con la base de datos.
     """
     path: str
     __connection: Connection
     __cursor: Cursor
+    __connection_status: bool = False
 
     def __init__(self, path: str) -> None:
         """
@@ -23,6 +26,12 @@ class Connect:
             - path: Ruta al archivo de la base de datos SQLite3.
         """
         self.path = path
+
+    def __str__(self) -> str:
+        """
+        Método que devuelve información relacionada con la conexión a la base de datos.
+        """
+        return f"Base de datos: {self.path}\nEstado: {("Sin conexión", "Conexión establecida")[self.__connection_status]}"
 
     def connect(self) -> bool:
         """
@@ -34,6 +43,7 @@ class Connect:
         try:
             self.__connection = connect(self.path)
             self.__cursor = self.__connection.cursor()
+            self.__connection_status = True
             print('[¡] Conexión exitosa')
             return True
         except Exception as e:
@@ -124,7 +134,8 @@ class Connect:
             where_clause = ' AND '.join([
                 f"{key} = ?" for key in condition.keys()
             ])
-            query = f"UPDATE {table_name} SET {set_clause} WHERE {where_clause}"
+            query = f"UPDATE {table_name} SET {
+                set_clause} WHERE {where_clause}"
             values = tuple(data.values()) + tuple(condition.values())
             self.__cursor.execute(query, values)
             self.__connection.commit()
@@ -166,4 +177,6 @@ class Connect:
         """
         Cierra la conexión con la base de datos.
         """
+        self.__cursor.close()
         self.__connection.close()
+        self.__connection_status = False
