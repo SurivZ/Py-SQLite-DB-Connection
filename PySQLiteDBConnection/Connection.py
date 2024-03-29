@@ -1,6 +1,5 @@
 from sqlite3 import connect, Cursor, Connection
 from typing import List, Tuple, Dict, Any as any
-from time import sleep
 
 
 class Connect:
@@ -31,7 +30,7 @@ class Connect:
         """
         Método que devuelve información relacionada con la conexión a la base de datos.
         """
-        return f"Base de datos: {self.path}\nEstado: {("Sin conexión", "Conexión establecida")[self.__connection_status]}"
+        return f"Base de datos: {self.path}\nEstado: {('Sin conexión', 'Conexión establecida')[self.__connection_status]}"
 
     def connect(self) -> bool:
         """

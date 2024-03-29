@@ -1,4 +1,4 @@
-# Py-SQLite-DB-Connection `v1.0.5`
+# Py-SQLite-DB-Connection `v1.0.6`
 
 Este paquete proporciona una clase `Connect` para gestionar conexiones y operaciones CRUD en bases de datos SQLite3 de manera sencilla y estandarizada.
 
