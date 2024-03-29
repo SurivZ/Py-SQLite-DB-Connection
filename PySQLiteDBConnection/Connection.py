@@ -81,9 +81,7 @@ class Connect:
             - Lista de tuplas que representan los registros que cumplen la condición.
         """
         try:
-            condition_columns = ' AND '.join([
-                f"{column} = ?" for column in condition.keys()
-            ])
+            condition_columns = ' AND '.join([f"{column} = ?" for column in condition.keys()])
             query = f"SELECT * FROM {table_name} WHERE {condition_columns}"
             self.__cursor.execute(query, tuple(condition.values()))
             rows = self.__cursor.fetchall()
@@ -131,11 +129,8 @@ class Connect:
         """
         try:
             set_clause = ', '.join([f"{key} = ?" for key in data.keys()])
-            where_clause = ' AND '.join([
-                f"{key} = ?" for key in condition.keys()
-            ])
-            query = f"UPDATE {table_name} SET {
-                set_clause} WHERE {where_clause}"
+            where_clause = ' AND '.join([f"{key} = ?" for key in condition.keys()])
+            query = f"UPDATE {table_name} SET {set_clause} WHERE {where_clause}"
             values = tuple(data.values()) + tuple(condition.values())
             self.__cursor.execute(query, values)
             self.__connection.commit()
@@ -160,11 +155,8 @@ class Connect:
         """
         try:
             query = f"DELETE FROM {table_name} WHERE "
-            conditions = [
-                f"{field} = {value}" for field, value in condition.items()
-            ]
+            conditions = [f"{field} = {value}" for field, value in condition.items()]
             query += " AND ".join(conditions)
-
             self.__cursor.execute(query)
             self.__connection.commit()
             print('[¡] Datos eliminados exitosamente')

@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name='PySQLiteDBConnection',
-    version='1.0.4',
+    version='1.0.5',
     author='SurivZ',
     author_email='franklinserrano23@email.com',
     description='Paquete para manejar conexiones de bases de datos SQLite3 y operaciones CRUD.',
-    long_description="""# Py-SQLite-DB-Connection `v1.0.4`
+    long_description="""# Py-SQLite-DB-Connection `v1.0.5`
 
 Este paquete proporciona una clase `Connect` para gestionar conexiones y operaciones CRUD en bases de datos SQLite3 de manera sencilla y estandarizada.
 

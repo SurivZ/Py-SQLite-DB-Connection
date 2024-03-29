@@ -1,5 +1,8 @@
 # Historial de cambios
 
+## v1.0.5 `(29-02-2024)`
+- Se corrigió un error en el método `update_record` de la clase `Connect`
+
 ## v1.0.4 `(18-11-2023)`
 
 - Se realizaron modificaciones a la clase `Connect`, agregando la opción de mostrarle al usuario información sobre la conexión a la base de datos.
