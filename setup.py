@@ -2,13 +2,13 @@ from setuptools import setup, find_packages
 
 setup(
     name='PySQLiteDBConnection',
-    version='1.0.6',
+    version='1.0.7',
     author='SurivZ',
     author_email='franklinserrano23@email.com',
     description='Paquete para manejar conexiones de bases de datos SQLite3 y operaciones CRUD.',
-    long_description="""# Py-SQLite-DB-Connection `v1.0.6`
+    long_description="""# Py-SQLite-DB-Connection `v1.0.7`
 
-Este paquete proporciona una clase `Connect` para gestionar conexiones y operaciones CRUD en bases de datos SQLite3 de manera sencilla y estandarizada.
+Este paquete proporciona una clase `Connect` para gestionar conexiones y operaciones CRUD en bases de datos SQLite3 de manera sencilla y estandarizada, ahora con la capacidad de crear, modificar y eliminar tablas.
 
 ## Instalación
 
@@ -76,6 +76,36 @@ deleted = db.delete_record('table_name', delete_condition)
 
 ```Python
 db.close()
+```
+
+### **Nuevo en `v1.0.7`: Crear, modificar y eliminar tablas**
+
+#### Crear una tabla nueva
+
+```Python
+# Definir las columnas y sus tipos de datos
+columns = {
+    'id': 'INTEGER PRIMARY KEY',
+    'name': 'TEXT',
+    'age': 'INTEGER'
+}
+
+# Crear la tabla
+created = db.create_table('users', columns)
+```
+
+#### Agregar una columna nueva a una tabla existente
+
+```Python
+# Agregar una nueva columna 'email' de tipo TEXT a la tabla 'users'
+added_column = db.alter_table_add_column('users', 'email', 'TEXT')
+```
+
+#### Eliminar una tabla
+
+```Python
+# Eliminar la tabla 'users'
+dropped = db.drop_table('users')
 ```
 
 ## Contribución

@@ -14,6 +14,7 @@ nh3==0.2.17
 pipUpdateAll==1.0.0
 pkginfo==1.10.0
 Pygments==2.17.2
+PySQLiteDBConnection @ file:///D:/Programaci%C3%B3n/Python/Py-SQLite-DB-Connection/dist/PySQLiteDBConnection-1.0.5.tar.gz#sha256=6ff4dda0af32bc343008adb60749ea6b55714fe82d0a69630bb8529f09da293b
 pywin32-ctypes==0.2.2
 readme_renderer==43.0
 requests==2.31.0

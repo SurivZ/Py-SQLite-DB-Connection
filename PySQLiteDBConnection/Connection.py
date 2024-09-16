@@ -164,6 +164,70 @@ class Connect:
             print('[!] Error al eliminar datos:', e)
             return False
 
+    def create_table(self, table_name: str, columns: Dict[str, str]) -> bool:
+        """
+        Crea una nueva tabla en la base de datos.
+
+        Args:
+            - table_name: Nombre de la tabla a crear.
+            - columns: Diccionario donde las claves son los nombres de las columnas y los valores son sus tipos de datos (por ejemplo, 'INTEGER', 'TEXT').
+
+        Returns:
+            - True si la tabla se crea exitosamente, False de lo contrario.
+        """
+        try:
+            columns_definition = ', '.join([f"{col} {dtype}" for col, dtype in columns.items()])
+            query = f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_definition})"
+            self.__cursor.execute(query)
+            self.__connection.commit()
+            print(f'[¡] Tabla "{table_name}" creada exitosamente')
+            return True
+        except Exception as e:
+            print(f'[!] Error al crear la tabla "{table_name}":', e)
+            return False
+
+    def alter_table_add_column(self, table_name: str, column_name: str, column_type: str) -> bool:
+        """
+        Agrega una nueva columna a una tabla existente.
+
+        Args:
+            - table_name: Nombre de la tabla a modificar.
+            - column_name: Nombre de la nueva columna.
+            - column_type: Tipo de dato de la nueva columna (por ejemplo, 'INTEGER', 'TEXT').
+
+        Returns:
+            - True si la columna se agrega exitosamente, False de lo contrario.
+        """
+        try:
+            query = f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_type}"
+            self.__cursor.execute(query)
+            self.__connection.commit()
+            print(f'[¡] Columna "{column_name}" añadida exitosamente a la tabla "{table_name}"')
+            return True
+        except Exception as e:
+            print(f'[!] Error al agregar la columna "{column_name}":', e)
+            return False
+
+    def drop_table(self, table_name: str) -> bool:
+        """
+        Elimina una tabla de la base de datos.
+
+        Args:
+            - table_name: Nombre de la tabla a eliminar.
+
+        Returns:
+            - True si la tabla se elimina exitosamente, False de lo contrario.
+        """
+        try:
+            query = f"DROP TABLE IF EXISTS {table_name}"
+            self.__cursor.execute(query)
+            self.__connection.commit()
+            print(f'[¡] Tabla "{table_name}" eliminada exitosamente')
+            return True
+        except Exception as e:
+            print(f'[!] Error al eliminar la tabla "{table_name}":', e)
+            return False
+
     def close(self) -> None:
         """
         Cierra la conexión con la base de datos.
