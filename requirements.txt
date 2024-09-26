@@ -18,7 +18,7 @@ pipUpdateAll==1.0.0
 pkginfo==1.10.0
 pluggy==1.5.0
 Pygments==2.17.2
-PySQLiteDBConnection @ file:///D:/Programaci%C3%B3n/Python/Py-SQLite-DB-Connection/dist/PySQLiteDBConnection-1.0.5.tar.gz#sha256=6ff4dda0af32bc343008adb60749ea6b55714fe82d0a69630bb8529f09da293b
+PySQLiteDBConnection @ file:///D:/Programaci%C3%B3n/Python/Py-SQLite-DB-Connection/dist/PySQLiteDBConnection-1.0.8.tar.gz#sha256=3297fb4fb3cf45c03d1bb5cdc92b4be5ebc6812a00a3a6c1570df779761b4f57
 pytest==8.3.3
 pywin32-ctypes==0.2.2
 readme_renderer==43.0
