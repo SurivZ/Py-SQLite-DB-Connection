@@ -1,4 +1,4 @@
-# Py-SQLite-DB-Connection `v1.0.7`
+# Py-SQLite-DB-Connection `v1.0.8`
 
 Este paquete proporciona una clase `Connect` para gestionar conexiones y operaciones CRUD en bases de datos SQLite3 de manera sencilla y estandarizada, ahora con la capacidad de crear, modificar y eliminar tablas.
 
@@ -21,84 +21,120 @@ from PySQLiteDBConnection import Connect
 ### Crear una instancia de la clase Connect
 
 ```Python
-db = Connect('path_to_your_database.db')
+database = Connect('path/to/your/database.db')
 ```
 
 ### Establecer conexión a la base de datos
 
 ```Python
-connected = db.connect()
+database.connect()
+```
+El método `connect` devuelve un booleano que representa el estado de la operación, en este caso, de la conexión con la base de datos, por lo que también puede guardarse en una variable para usarse más adelante en caso de ser requerido.
+```Python
+connected = database.connect()
 ```
 
-### Mostrar información sobre la conexión con la base de datos
+### Mostrar información sobre la base de datos
 
 ```Python
-print(db)
+print(database)
 ```
 
 ### Leer todos los registros de una tabla
 
 ```Python
-table_data = db.read_table('table_name')
+table_data = database.read_table('table_name')
 ```
 
 ### Insertar datos en una tabla
 
 ```Python
-data_to_insert = {'column1': 'value1', 'column2': 'value2'}
-inserted = db.insert_into_table('table_name', data_to_insert)
+database.insert_into_table('table_name', {
+    'column1': 'value1', 
+    'column2': 'value2',
+})
+```
+El método `insert_into_table` también devuelve un booleano que representa el estado de la operación.
+```Python
+inserted = database.insert_into_table('table_name', {
+    'column1': 'value1', 
+    'column2': 'value2',
+})
 ```
 
 ### Actualizar registros en una tabla
 
 ```Python
-update_data = {'column1': 'new_value'}
-condition = {'column2': 'value2'}
-updated = db.update_record('table_name', update_data, condition)
+database.update_record('table_name', {'column1': 'new_value'}, {'column2': 'value2'})
+```
+El método `update_record` también devuelve un booleano que representa el estado de la operación.
+```Python
+updated = database.update_record('table_name', {'column1': 'new_value'}, {'column2': 'value2'})
 ```
 
 ### Eliminar registros de una tabla
 
 ```Python
-delete_condition = {'column1': 'value1'}
-deleted = db.delete_record('table_name', delete_condition)
+database.delete_record('table_name', {'column1': 'value1'})
 ```
-
-### Cerrar la conexión con la base de datos
-
+El método `delete_record` también devuelve un booleano que representa el estado de la operación.
 ```Python
-db.close()
+deleted = database.delete_record('table_name', {'column1': 'value1'})
 ```
-
-### **Nuevo en `v1.0.7`: Crear, modificar y eliminar tablas**
 
 #### Crear una tabla nueva
 
 ```Python
-# Definir las columnas y sus tipos de datos
-columns = {
+database.create_table('users', {
     'id': 'INTEGER PRIMARY KEY',
     'name': 'TEXT',
     'age': 'INTEGER'
-}
-
-# Crear la tabla
-created = db.create_table('users', columns)
+})
+```
+El método `create_table` también devuelve un booleano que representa el estado de la operación.
+```Python
+created = database.create_table('users', {
+    'id': 'INTEGER PRIMARY KEY',
+    'name': 'TEXT',
+    'age': 'INTEGER'
+})
 ```
 
 #### Agregar una columna nueva a una tabla existente
 
 ```Python
-# Agregar una nueva columna 'email' de tipo TEXT a la tabla 'users'
-added_column = db.alter_table_add_column('users', 'email', 'TEXT')
+database.alter_table_add_column('users', 'email', 'TEXT')
+```
+El método `alter_table_add_column` también devuelve un booleano que representa el estado de la operación.
+```Python
+added_column = database.alter_table_add_column('users', 'email', 'TEXT')
 ```
 
 #### Eliminar una tabla
 
 ```Python
-# Eliminar la tabla 'users'
-dropped = db.drop_table('users')
+database.drop_table('users')
 ```
+El método `drop_table` también devuelve un booleano que representa el estado de la operación.
+```Python
+dropped = database.drop_table('users')
+```
+
+### Cerrar la conexión con la base de datos
+
+```Python
+database.close()
+```
+
+### **Nuevo en `v1.0.8`: Método `get_status()`**
+
+### Obtener estado de la conexión con la base de datos
+
+Esta es otra forma de ver el estado de la conexión con la base de datos para el caso de que no se guarde el resultado del método `connect`.
+```Python
+print(f'Status: {database.get_status()}')
+```
+
 
 ## Contribución
 

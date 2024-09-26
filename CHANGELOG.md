@@ -1,5 +1,9 @@
 # Historial de cambios
 
+## v1.0.8 `(26-09-2024)`
+
+- Se agregó el método `get_status()` ver específicamente el estado de la conexión con la base de datos.
+
 ## v1.0.7 `(15-09-2024)`
 
 - Se agregaron métodos para la gestión de tablas en la clase `Connect`:

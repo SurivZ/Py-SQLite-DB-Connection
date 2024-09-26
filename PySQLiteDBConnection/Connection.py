@@ -17,20 +17,28 @@ class Connect:
     __cursor: Cursor
     __connection_status: bool = False
 
-    def __init__(self, path: str) -> None:
+    def __init__(self, path: str, raise_exceptions: bool = False) -> None:
         """
         Inicializa una nueva instancia de la clase Connect.
 
         Args:
             - path: Ruta al archivo de la base de datos SQLite3.
+            - raise_exceptions: Este parámetro le permite al usuario decidir si quiere que la clase levante o no las excepciones.
         """
         self.path = path
+        self.raise_exceptions = raise_exceptions
 
     def __str__(self) -> str:
         """
         Método que devuelve información relacionada con la conexión a la base de datos.
         """
         return f"Base de datos: {self.path}\nEstado: {('Sin conexión', 'Conexión establecida')[self.__connection_status]}"
+    
+    def get_status(self) -> bool:
+        """
+        Método que devuelve el estado de la conexión a la base de datos.
+        """
+        return self.__connection_status
 
     def connect(self) -> bool:
         """
@@ -46,8 +54,11 @@ class Connect:
             print('[¡] Conexión exitosa')
             return True
         except Exception as e:
-            print('[!] Error al conectar:', e)
-            return False
+            if self.raise_exceptions:
+                raise e
+            else:
+                print('[!] Error al conectar: ', e)
+                return False
 
     def read_table(self, table_name: str) -> List[Tuple[int | float | str, ...]]:
         """
@@ -65,8 +76,11 @@ class Connect:
             rows = self.__cursor.fetchall()
             return rows
         except Exception as e:
-            print('[!] Error al leer la tabla:', e)
-            return []
+            if self.raise_exceptions:
+                raise e
+            else:
+                print('[!] Error al leer la tabla: ', e)
+                return []
 
     def read_table_with_condition(self, table_name: str, condition: Dict[str, any]) -> List[Tuple[int | float | str, ...]]:
         """
@@ -86,8 +100,11 @@ class Connect:
             rows = self.__cursor.fetchall()
             return rows
         except Exception as e:
-            print('[!] Error al leer la tabla con la condición:', e)
-            return []
+            if self.raise_exceptions:
+                raise e
+            else:
+                print('[!] Error al leer la tabla con la condición: ', e)
+                return []
 
     def insert_into_table(self, table_name: str, data: Dict[str, any]) -> bool:
         """
@@ -109,12 +126,13 @@ class Connect:
             print('[¡] Datos insertados exitosamente')
             return True
         except Exception as e:
-            print('[!] Error al insertar datos:', e)
-            return False
+            if self.raise_exceptions:
+                raise e
+            else:
+                print('[!] Error al insertar datos: ', e)
+                return False
 
-    from typing import Dict, Any
-
-    def update_record(self, table_name: str, data: Dict[str, Any], condition: Dict[str, Any]) -> bool:
+    def update_record(self, table_name: str, data: Dict[str, any], condition: Dict[str, any]) -> bool:
         """
         Actualiza registros en una tabla.
 
@@ -136,12 +154,13 @@ class Connect:
             print('[¡] Datos actualizados exitosamente')
             return True
         except Exception as e:
-            print('[!] Error al actualizar datos:', e)
-            return False
+            if self.raise_exceptions:
+                raise e
+            else:
+                print('[!] Error al actualizar datos: ', e)
+                return False
 
-    from typing import Dict
-
-    def delete_record(self, table_name: str, condition: Dict[str, Any]) -> bool:
+    def delete_record(self, table_name: str, condition: Dict[str, any]) -> bool:
         """
         Elimina registros de una tabla.
 
@@ -161,9 +180,12 @@ class Connect:
             print('[¡] Datos eliminados exitosamente')
             return True
         except Exception as e:
-            print('[!] Error al eliminar datos:', e)
-            return False
-
+            if self.raise_exceptions:
+                raise e
+            else:
+                print('[!] Error al eliminar datos: ', e)
+                return False
+            
     def create_table(self, table_name: str, columns: Dict[str, str]) -> bool:
         """
         Crea una nueva tabla en la base de datos.
@@ -183,8 +205,11 @@ class Connect:
             print(f'[¡] Tabla "{table_name}" creada exitosamente')
             return True
         except Exception as e:
-            print(f'[!] Error al crear la tabla "{table_name}":', e)
-            return False
+            if self.raise_exceptions:
+                raise e
+            else:
+                print(f'[!] Error al crear la tabla "{table_name}": ', e)
+                return False
 
     def alter_table_add_column(self, table_name: str, column_name: str, column_type: str) -> bool:
         """
@@ -205,8 +230,11 @@ class Connect:
             print(f'[¡] Columna "{column_name}" añadida exitosamente a la tabla "{table_name}"')
             return True
         except Exception as e:
-            print(f'[!] Error al agregar la columna "{column_name}":', e)
-            return False
+            if self.raise_exceptions:
+                raise e
+            else:
+                print(f'[!] Error al agregar la columna "{column_name}": ', e)
+                return False
 
     def drop_table(self, table_name: str) -> bool:
         """
@@ -225,8 +253,11 @@ class Connect:
             print(f'[¡] Tabla "{table_name}" eliminada exitosamente')
             return True
         except Exception as e:
-            print(f'[!] Error al eliminar la tabla "{table_name}":', e)
-            return False
+            if self.raise_exceptions:
+                raise e
+            else:
+                print(f'[!] Error al eliminar la tabla "{table_name}": ', e)
+                return False
 
     def close(self) -> None:
         """
