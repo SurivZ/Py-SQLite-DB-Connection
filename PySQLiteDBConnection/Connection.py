@@ -8,11 +8,13 @@ class Connect:
 
     Args:
         path (str): Ruta al archivo de la base de datos SQLite3.
+        raise_exceptions (bool): Este parámetro le permite al usuario decidir si quiere que la clase levante o no las excepciones.
         __connection (Connection): Conexión a la base de datos.
         __cursor (Cursor): Cursor para ejecutar consultas SQL.
         __connection_status (bool): Variable que muestra el estado de la conexión con la base de datos.
     """
     path: str
+    raise_exceptions: bool
     __connection: Connection
     __cursor: Cursor
     __connection_status: bool = False
@@ -33,7 +35,7 @@ class Connect:
         Método que devuelve información relacionada con la conexión a la base de datos.
         """
         return f"Base de datos: {self.path}\nEstado: {('Sin conexión', 'Conexión establecida')[self.__connection_status]}"
-    
+
     def get_status(self) -> bool:
         """
         Método que devuelve el estado de la conexión a la base de datos.
@@ -185,23 +187,36 @@ class Connect:
             else:
                 print('[!] Error al eliminar datos: ', e)
                 return False
-            
-    def create_table(self, table_name: str, columns: Dict[str, str]) -> bool:
+
+    def create_table(self, table_name: str, columns: dict, apply_constraints: bool = False) -> bool:
         """
         Crea una nueva tabla en la base de datos.
 
         Args:
             - table_name: Nombre de la tabla a crear.
-            - columns: Diccionario donde las claves son los nombres de las columnas y los valores son sus tipos de datos (por ejemplo, 'INTEGER', 'TEXT').
+            - columns: Diccionario donde las claves son los nombres de las columnas y los valores representa información sobre las columnas, como sus tipos de datos (por ejemplo, 'INTEGER', 'TEXT').
+            - apply_constraints: Booleano que indica si se deben aplicar restricciones de tipos de datos en las columnas.
 
         Returns:
             - True si la tabla se crea exitosamente, False de lo contrario.
         """
         try:
-            columns_definition = ', '.join([f"{col} {dtype}" for col, dtype in columns.items()])
-            query = f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_definition})"
-            self.__cursor.execute(query)
-            self.__connection.commit()
+            column_defs = []
+            for column_name, data_type in columns.items():
+                if apply_constraints:
+                    _data_type = data_type.split(" ")[0]
+                    if _data_type.upper() == "INTEGER":
+                        constraint = f"CHECK({column_name} IS NULL OR {column_name} GLOB '[0-9]*')"
+                    elif _data_type.upper() == "REAL":
+                        constraint = f"CHECK({column_name} IS NULL OR {column_name} LIKE '%[0-9]%')"
+                    elif _data_type.upper() == "NUMERIC":
+                        constraint = f"CHECK({column_name} IS NULL OR {column_name} GLOB '[0-9]*')"
+                    column_defs.append(f"{column_name} {data_type} {constraint}".strip())
+                else:
+                    column_defs.append(f"{column_name} {data_type}")
+            columns_sql = ", ".join(column_defs)
+            sql = f"CREATE TABLE {table_name} ({columns_sql})"
+            self.__cursor.execute(sql)
             print(f'[¡] Tabla "{table_name}" creada exitosamente')
             return True
         except Exception as e:
@@ -263,6 +278,8 @@ class Connect:
         """
         Cierra la conexión con la base de datos.
         """
-        self.__cursor.close()
-        self.__connection.close()
+        if hasattr(self, '_Connect__cursor') and self.__cursor:
+            self.__cursor.close()
+        if hasattr(self, '_Connect__connection') and self.__connection:
+            self.__connection.close()
         self.__connection_status = False

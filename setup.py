@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name='PySQLiteDBConnection',
-    version='1.0.8',
+    version='1.0.9',
     author='SurivZ',
     author_email='franklinserrano23@email.com',
-    description='Paquete para manejar conexiones de bases de datos SQLite3 y operaciones CRUD.',
-    long_description="""# Py-SQLite-DB-Connection `v1.0.8`
+    description='Este paquete proporciona una clase `Connect` para gestionar bases de datos SQLite3 de manera sencilla y estandarizada.',
+    long_description="""# Py-SQLite-DB-Connection `v1.0.9`
 
 Este paquete proporciona una clase `Connect` para gestionar conexiones y operaciones CRUD en bases de datos SQLite3 de manera sencilla y estandarizada, ahora con la capacidad de crear, modificar y eliminar tablas.
 
@@ -134,13 +134,20 @@ dropped = database.drop_table('users')
 database.close()
 ```
 
-### **Nuevo en `v1.0.8`: Método `get_status()`**
-
 ### Obtener estado de la conexión con la base de datos
 
 Esta es otra forma de ver el estado de la conexión con la base de datos para el caso de que no se guarde el resultado del método `connect`.
 ```Python
 print(f'Status: {database.get_status()}')
+```
+
+### **Nuevo en `v1.0.9`: Parámetro `raise_exceptions`**
+
+Se agregó el parámetro `raise_exceptions` (por defecto en `False`) al constructor de la clase `Connect` para darle la opción al usuario de levantar o no las excepciones que puedan llegar a ocurrir.
+
+
+```Python
+database = Connect('path/to/your/database.db', raise_exceptions=True)
 ```
 
 

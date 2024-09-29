@@ -1,5 +1,9 @@
 # Historial de cambios
 
+## v1.0.9 `(29-09-2024)`
+
+- Se agregó el parámetro `raise_exceptions` (por defecto en `False`) al constructor de la clase `Connect` para darle la opción al usuario de levantar o no las excepciones que puedan llegar a ocurrir.
+
 ## v1.0.8 `(26-09-2024)`
 
 - Se agregó el método `get_status()` ver específicamente el estado de la conexión con la base de datos.
